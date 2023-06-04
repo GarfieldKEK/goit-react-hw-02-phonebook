@@ -1,0 +1,48 @@
+.name {
+    padding: 10px;
+    border-radius: 5px;
+    margin-right: 20px;
+    border-color: blue  ;
+}
+.tel {
+    padding: 10px;
+    border-radius: 5px;
+    border-color: blue  ;
+    margin-right: 20px;
+}
+.name:focus {
+    border-color: orange  ;
+    outline: orange;
+}
+.tel:focus {
+    border-color: orange  ;
+    outline: orange;
+}
+.addbtn {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(112, 140, 233);
+    cursor: pointer;
+}
+.addbtn:hover, .addbtn:focus {
+    background-color: greenyellow;
+}
+.filter {
+    padding: 10px;
+    border-radius: 5px;
+    border-color: blue  ;
+}
+.filter:focus {
+    border-color: orange  ;
+    outline: orange;
+}
+.dltbtn {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(206, 103, 103);
+    cursor: pointer;
+    margin-left: 20px;
+}
+.dltbtn:focus, .dltbtn:hover {
+    background-color: red;
+}
