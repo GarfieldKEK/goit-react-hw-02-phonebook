@@ -1,7 +1,22 @@
 import { v4 as uuid } from 'uuid'
 import { Component } from 'react';
 import style from "./app.module.css"
+import { ContactForm } from './ContactForm';
+import { Filter } from './Filter';
+import { ContactList } from './ContactList';
 export class App extends Component {
+  static propTypes = {
+    contacts: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        number: PropTypes.string.isRequired,
+      })
+    ),
+    filter: PropTypes.string,
+    name: PropTypes.string,
+    number: PropTypes.string,
+  };
   state = {
     contacts: [
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -10,8 +25,6 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
 
   handleInputChange = (e) => {
@@ -68,9 +81,6 @@ export class App extends Component {
       <div>
         <h1>Phonebook</h1>
         <ContactForm
-          name={name}
-          number={number}
-          onInputChange={this.handleInputChange}
           onSubmit={this.handleSubmit}
         />
 
@@ -84,55 +94,3 @@ export class App extends Component {
     );
   }
 }
-
-const ContactForm = ({ name, number, onInputChange, onSubmit }) => (
-  <form onSubmit={onSubmit}>
-    <input
-    className={style.name}
-      type="text"
-      name="name"
-      pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-      title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-      required
-      value={name}
-      onChange={onInputChange}
-      placeholder="Name"
-    />
-
-    <input
-    className={style.tel}
-      type="tel"
-      name="number"
-      pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-      title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-      required
-      value={number}
-      onChange={onInputChange}
-      placeholder="Phone number"
-    />
-
-    <button className={style.addbtn} type="submit">Add contact</button>
-  </form>
-);
-
-const Filter = ({ filter, onFilterChange }) => (
-  <input
-  className= {style.filter}
-    type="text"
-    name="filter"
-    value={filter}
-    onChange={onFilterChange}
-    placeholder="Search contacts"
-  />
-);
-
-const ContactList = ({ contacts, onDeleteContact }) => (
-  <ul>
-    {contacts.map((contact) => (
-      <li key={contact.id}>
-        {contact.name}: {contact.number}
-        <button className={style.dltbtn} onClick={() => onDeleteContact(contact.id)}>Delete</button>
-      </li>
-    ))}
-  </ul>
-);
