@@ -1,10 +1,10 @@
-import { v4 as uuid } from 'uuid'
+
 import { Component } from 'react';
 
 import { ContactForm } from './ContactForm';
 import { Filter } from './Filter';
 import { ContactList } from './ContactList';
-import PropTypes from "prop-types";
+
 export class App extends Component {
 
   
@@ -29,7 +29,7 @@ export class App extends Component {
   };
 
   render() {
-    const { contacts, filter, name, number } = this.state;
+    const { contacts, filter} = this.state;
 
     const filteredContacts = contacts.filter((contact) =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
