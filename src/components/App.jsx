@@ -6,6 +6,13 @@ import { Filter } from './Filter';
 import { ContactList } from './ContactList';
 
 export class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      contacts: [],
+      filter: ''
+    };
+  } 
 
   
 
