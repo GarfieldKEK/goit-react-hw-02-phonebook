@@ -1,61 +1,72 @@
 
-import { Component } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { ContactForm } from './ContactForm';
 import { Filter } from './Filter';
 import { ContactList } from './ContactList';
 
-export class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      contacts: [],
-      filter: ''
-    };
-  } 
+const App = () => {
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
 
-  
+  useEffect(() => {
+    const storedContacts = localStorage.getItem('contacts');
+    if (storedContacts) {
+      setContacts(JSON.parse(storedContacts));
+    }
+  }, []);
 
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
-
-  isContactExist = (name) => {
-    const { contacts } = this.state;
+  const isContactExist = (name) => {
     return contacts.some(
       (contact) => contact.name.toLowerCase() === name.toLowerCase()
     );
   };
 
-  handleFilterChange = (e) => {
-    this.setState({ filter: e.target.value });
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
   };
 
-  handleDeleteContact = (id) => {
-    this.setState((prevState) => ({
-      contacts: prevState.contacts.filter((contact) => contact.id !== id),
-    }));
+  const handleDeleteContact = (id) => {
+    setContacts((prevContacts) =>
+      prevContacts.filter((contact) => contact.id !== id)
+    );
   };
 
-  render() {
-    const { contacts, filter} = this.state;
+  const handleSubmit = (name, number) => {
+    if (isContactExist(name)) {
+      // Обробка випадку, коли контакт вже існує
+      return;
+    }
 
-    const filteredContacts = contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
-    );
+    const newContact = {
+      id: Math.random().toString(),
+      name,
+      number
+    };
 
-    return (
-      <div>
-        <h1>Phonebook</h1>
-        <ContactForm
-          onSubmit={this.handleSubmit}
-        />
+    setContacts((prevContacts) => [...prevContacts, newContact]);
+  };
 
-        <h2>Contacts</h2>
-        <Filter filter={filter} onFilterChange={this.handleFilterChange} />
-        <ContactList
-          contacts={filteredContacts}
-          onDeleteContact={this.handleDeleteContact}
-        />
-      </div>
-    );
-  }
-}
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  return (
+    <div>
+      <h1>Phonebook</h1>
+      <ContactForm onSubmit={handleSubmit} />
+
+      <h2>Contacts</h2>
+      <Filter filter={filter} onFilterChange={handleFilterChange} />
+      <ContactList
+        contacts={filteredContacts}
+        onDeleteContact={handleDeleteContact}
+      />
+    </div>
+  );
+};
+
+export default App;
