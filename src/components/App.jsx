@@ -4,7 +4,7 @@ import { ContactForm } from './ContactForm';
 import { Filter } from './Filter';
 import { ContactList } from './ContactList';
 
-const App = () => {
+export const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
@@ -69,4 +69,4 @@ const App = () => {
   );
 };
 
-export default App;
+
