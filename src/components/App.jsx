@@ -37,7 +37,7 @@ export const App = () => {
 
   const handleSubmit = (name, number) => {
     if (isContactExist(name)) {
-      // Обробка випадку, коли контакт вже існує
+
       return;
     }
 
